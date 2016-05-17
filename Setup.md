@@ -134,7 +134,7 @@ Installation steps refer to [CC31xx & CC32xx UniFlash Installation](http://proce
 The CC3200 can be set to operate in three different modes based on the state of the Sense on Power (SOP) lines.
 
 <span style="color:red">
-To download image to CC3200 LaunchPad, SOP[2:0] (J15-J17) **MUST** be set to `100` as flash programming mode.
+**To download image to CC3200 LaunchPad, SOP\[2:0\] (J15-J17) MUST be set as `100` (short J15) to be flash programming mode.**
 </span>
 
 ## Reference
