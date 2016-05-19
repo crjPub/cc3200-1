@@ -34,3 +34,6 @@ exe
 
 # Debug files
 *.dSYM/
+
+# Tag files
+cscope.*
