@@ -5,16 +5,12 @@
 #*****************************************************************************
 
 #
-# Current directory
+# Path and directory
 #
+ROOT_PATH	:= ../..
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 CURRENT_PATH:= $(shell pwd)
 CURRENT_DIR := $(notdir $(CURDIR:%/=%))
-
-#
-# Target
-#
-TARGET_NAME := ${CURRENT_DIR}
 
 #
 # The base directory for SDK
@@ -22,9 +18,14 @@ TARGET_NAME := ${CURRENT_DIR}
 SDK_ROOT=../../SDK/CC3200
 
 #
+# Target
+#
+TARGET_NAME := ${CURRENT_DIR}
+
+#
 # Include the common make definitions.
 #
-include ${SDK_ROOT}/tools/gcc_scripts/makedefs
+include ${ROOT_PATH}/Build/makedefs
 
 #
 # Where to find source files that do not live in this directory.
