@@ -59,15 +59,16 @@ ${BINDIR}:
 	@mkdir -p ${BINDIR}
 
 #
-# Rules for building the get_time example.
+# Rules for building the target
 #
 ${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/main.o
 ${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/pinmux.o
 ${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/gpio_if.o
 ${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/${CURRENT_DIR}.axf: ${SDK_ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a
-SCATTERgcc_${CURRENT_DIR}=linker.ld
-ENTRY_blinky=ResetISR
+
+SCATTERgcc_${CURRENT_DIR} = linker.ld
+ENTRY_${CURRENT_DIR} = ResetISR
 
 #
 # Include the automatically generated dependency files.
