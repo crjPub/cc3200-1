@@ -8,6 +8,7 @@
 # Current directory
 #
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+CURRENT_PATH:= $(shell pwd)
 CURRENT_DIR := $(notdir $(CURDIR:%/=%))
 
 #
@@ -34,11 +35,11 @@ VPATH+=../common
 #
 # Where to find header files that do not live in the source directory.
 #
-IPATH=.
-IPATH+=../..
-IPATH+=${SDK_ROOT}/inc
-IPATH+=${SDK_ROOT}/driverlib
-IPATH+=../common
+IPATH  = .
+IPATH += ../inc
+IPATH += ../common
+IPATH += ${SDK_ROOT}/inc
+IPATH += ${SDK_ROOT}/driverlib
 
 #
 # The default rule, which causes the driver library to be built.
@@ -50,8 +51,8 @@ all: ${BINDIR}/${TARGET_NAME}.axf
 # The rule to clean out all the build products.
 #
 clean:
-	rm -rf ${OBJDIR} ${wildcard *~}
-	rm -rf ${BINDIR} ${wildcard *~}
+	@rm -rf ${OBJDIR} ${wildcard *~}
+	@rm -rf ${BINDIR} ${wildcard *~}
 
 
 #
