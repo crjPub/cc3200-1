@@ -11,6 +11,11 @@ MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 CURRENT_DIR := $(notdir $(CURDIR:%/=%))
 
 #
+# Target
+#
+TARGET_NAME := ${CURRENT_DIR}
+
+#
 # The base directory for SDK
 #
 SDK_ROOT=../../SDK/CC3200
@@ -39,14 +44,14 @@ IPATH+=../common
 # The default rule, which causes the driver library to be built.
 #
 all: ${OBJDIR} ${BINDIR}
-all: ${BINDIR}/${CURRENT_DIR}.axf
+all: ${BINDIR}/${TARGET_NAME}.axf
 
 #
 # The rule to clean out all the build products.
 #
 clean:
-	@rm -rf ${OBJDIR} ${wildcard *~}
-	@rm -rf ${BINDIR} ${wildcard *~}
+	rm -rf ${OBJDIR} ${wildcard *~}
+	rm -rf ${BINDIR} ${wildcard *~}
 
 
 #
@@ -61,14 +66,14 @@ ${BINDIR}:
 #
 # Rules for building the target
 #
-${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/main.o
-${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/pinmux.o
-${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/gpio_if.o
-${BINDIR}/${CURRENT_DIR}.axf: ${OBJDIR}/startup_${COMPILER}.o
-${BINDIR}/${CURRENT_DIR}.axf: ${SDK_ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a
+${BINDIR}/${TARGET_NAME}.axf: ${OBJDIR}/main.o
+${BINDIR}/${TARGET_NAME}.axf: ${OBJDIR}/pinmux.o
+${BINDIR}/${TARGET_NAME}.axf: ${OBJDIR}/gpio_if.o
+${BINDIR}/${TARGET_NAME}.axf: ${OBJDIR}/startup_${COMPILER}.o
+${BINDIR}/${TARGET_NAME}.axf: ${SDK_ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a
 
-SCATTERgcc_${CURRENT_DIR} = linker.ld
-ENTRY_${CURRENT_DIR} = ResetISR
+SCATTERgcc_${TARGET_NAME} = linker.ld
+ENTRY_${TARGET_NAME} = ResetISR
 
 #
 # Include the automatically generated dependency files.
