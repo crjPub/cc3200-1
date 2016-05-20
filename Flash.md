@@ -111,8 +111,13 @@ The following table summarizes all command line arguments:
 Example:
 
 ```
-$ uf.bat -config "C:\ti\uniflash_3.2\cc3xxx\sessions\uniflash_template\oob.ucf" -setOptions com=50 secure=false spPath="C:\servicepack.bin" -operations format servicePackUpdate program
-$ uf.bat -config "C:\Cygwin\home\robbie\GitHub\cc3200\SDK\CC3200\example\out_of_box\html\out_of_box.ucf" -setOptions com=8 secure=false spPath="C:\TI\CC31xx_CC32xx_ServicePack_1.0.0.10.0\servicepack_1.0.0.10.0.bin" -operations format servicePackUpdate program
+$ uf.bat -config "C:\ti\uniflash_3.2\cc3xxx\sessions\uniflash_template\oob.ucf" \
+  -setOptions com=50 secure=false spPath="C:\servicepack.bin" \
+  -operations format servicePackUpdate program
+$ uf.bat -config "C:\Cygwin\home\robbie\GitHub\cc3200\SDK\CC3200\example\out_of_box\html\out_of_box.ucf" \
+  -setOptions com=8 secure=false \
+  spPath="C:\TI\CC31xx_CC32xx_ServicePack_1.0.0.10.0\servicepack_1.0.0.10.0.bin" \
+  -operations format servicePackUpdate program
 ```
 
 <span style="color:red">
