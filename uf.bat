@@ -11,7 +11,7 @@ call "%UNIFLASH_PATH%\eclipse\command_line\cc3xx_cmd.bat" %*
 
 :EXIT
 
-:: Usage: 
+:: Usage:
 ::	 uf.bat [CONFIG] [SETTINGS] [OPERATION]
 :: 	 uf.bat -help
 ::
