@@ -1,4 +1,5 @@
 :: Flash script
+:: !!!CAN BE USED IN CYGWIN ONLY!!!
 
 @echo off
 setlocal enabledelayedexpansion
@@ -6,7 +7,7 @@ setlocal enabledelayedexpansion
 :: COM
 set COM_PORT=8
 if "x%1"=="x" (
-        echo Please set COM Port #!
+        echo Please set COM port #!
         call :PrintHelp
         goto EXIT
         )
@@ -38,21 +39,25 @@ if "%3"=="FS"   set OPTIONS=format servicePackUpdate
 if "%3"=="FSP"  set OPTIONS=format servicePackUpdate program
 
 set UF_BAT=uf.bat
+set SP_BIN=%~dp0Apps\prebuilt\servicepack_1.0.0.10.0.bin
 
-echo %UF_BAT% -config "%CONF_PATH%" -setOptions com=%COM_PORT% secure=false spPath="%~dp0servicepack_1.0.0.10.0.bin" -operations %OPTIONS%
+:: Program
+set PROGRAM=%UF_BAT% -config "%CONF_PATH%" -setOptions com=%COM_PORT% secure=false spPath="%SP_BIN%" -operations %OPTIONS%
+echo %PROGRAM%
+call %PROGRAM%
+echo %PROGRAM%
 
-%UF_BAT% -config "%CONF_PATH%" -setOptions com=%COM_PORT% secure=false spPath="%~dp0servicepack_1.0.0.10.0.bin" -operations %OPTIONS%
 goto EXIT
 
 :PrintHelp
 setlocal
 echo Usage:
-echo f32.bat COM# [app] [option] [extra]
+echo f32.bat COM# [app] [option]
 echo * COM#:
 echo     - Number of COM port, (1~255)
 echo * config:
 echo     - App path, relative path in unix format, eg Apps/hello/program.usf
-echo * target:
+echo * option:
 echo     - F - foramt
 echo     - S - servicePackUpdate
 echo     - P - program
