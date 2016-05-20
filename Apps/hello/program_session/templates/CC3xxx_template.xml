@@ -39,7 +39,7 @@
       <Type>blob</Type>
       <Storage>SFLASH</Storage>
       <MaxSize>0</MaxSize>
-      <url>${sessionDir}/../exe/hello.bin</url>
+      <url>${sessionDir}\..\exe\hello.bin</url>
       <mode>
          <ModeEntry name="Rollback" checked="true"/>
          <ModeEntry name="Secured" checked="false"/>

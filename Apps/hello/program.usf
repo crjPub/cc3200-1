@@ -1,11 +1,13 @@
-#Fri May 20 13:58:32 CST 2016
+#Fri May 20 14:10:10 CST 2016
 interface=CC3x Serial(UART) Interface
+capacity=1MB
 CFG_GRP_ID|DHCP_Server=false
 CFG_GRP_ID|Station=false
 com=8
 CFG_GRP_ID|mDNS_Client=false
 CFG_GRP_ID|Device_Role=false
 CFG_GRP_ID|Profiles=false
+secure=false
 CFG_GRP_ID|AP=false
 CFG_GRP_ID|Profile7=false
 CFG_GRP_ID|Profile6=false
