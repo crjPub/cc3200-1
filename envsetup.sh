@@ -55,23 +55,6 @@ function gettop
     fi
 }
 
-function findmakefile()
-{
-    TOPFILE=envsetup.sh
-    local HERE=$PWD
-    T=
-    while [ \( ! \( -f $TOPFILE \) \) -a \( $PWD != "/" \) ]; do
-        T=`PWD= /bin/pwd`
-        if [ -f "$T/Makefile" ]; then
-            echo $T/Makefile
-            \cd $HERE
-            return
-        fi
-        \cd ..
-    done
-    \cd $HERE
-}
-
 function mmm()
 {
     local T=$(gettop)
@@ -102,12 +85,16 @@ function mmm()
 
 
     if [ "$DIR" ]; then
+        echo Entering $DIR
         cd $DIR
     fi
 
     make $ARGS
 
-    cd $START
+    if [ "$DIR" ]; then
+        cd $START
+        echo Leaving $DIR
+    fi
 }
 
 
