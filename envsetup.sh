@@ -64,10 +64,17 @@ function mmm()
         return 1
     fi
 
-    local DIR=$1
-    local ARGS=$2
+    if [ $# -gt 2 ]; then
+        echo "Too many parameters!"
+        mmm_usage
+        return 1
+    fi
+
     local START=`PWD= /bin/pwd`
     local MAKEFILE=Makefile
+
+    local DIR=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^[^-].*$/')
+    local ARGS=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^-.*$/' | cut -c2-)
 
     if [ "$DIR" ]; then
         DIR=`echo $DIR | sed -e 's/:.*//' -e 's:/$::'`
@@ -97,4 +104,12 @@ function mmm()
     fi
 }
 
+function mmm_usage()
+{
+    echo "Usage:"
+    echo "  mmm [path] [-option]"
+    echo "  mmm [-option] [path]"
+    echo "  - path   - relative path to Makefile to be built with"
+    echo "  - option - target to make, eg clean"
+}
 
