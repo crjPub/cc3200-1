@@ -5,12 +5,24 @@
 #*****************************************************************************
 
 #
+# ROOT_PATH comes from global shell environment.
+# Ensure run `source envsetup.sh` first of all.
+#
+#ifndef ROOT_PATH
+#	ROOT_PATH := ../..
+#endif
+
+#
+# Include the common make definitions.
+#
+include ${ROOT_PATH}/makedefs
+
+#
 # Path and directory
 #
-ROOT_PATH	:= ../..
-MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-CURRENT_PATH:= $(shell pwd)
-CURRENT_DIR := $(notdir $(CURDIR:%/=%))
+MKFILE_PATH  := $(abspath $(lastword $(MAKEFILE_LIST)))
+CURRENT_PATH := $(shell pwd)
+CURRENT_DIR  := $(notdir $(CURDIR:%/=%))
 
 #
 # The base directory for SDK
@@ -23,15 +35,10 @@ SDK_ROOT=../../SDK/CC3200
 TARGET_NAME := ${CURRENT_DIR}
 
 #
-# Include the common make definitions.
-#
-include ${ROOT_PATH}/Build/makedefs
-
-#
 # Where to find source files that do not live in this directory.
 #
-VPATH  =.
-VPATH +=../common
+VPATH  = .
+VPATH += ../common
 
 #
 # Where to find header files that do not live in the source directory.
