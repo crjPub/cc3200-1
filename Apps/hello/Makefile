@@ -59,8 +59,8 @@ all: ${BINDIR}/${TARGET_NAME}.axf
 # The rule to clean out all the build products.
 #
 clean:
-	@rm -rf ${OBJDIR} ${wildcard *~}
-	@rm -rf ${BINDIR} ${wildcard *~}
+	rm -rf ${OBJDIR} ${wildcard *~}
+	rm -rf ${BINDIR} ${wildcard *~}
 
 
 #
