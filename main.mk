@@ -96,38 +96,6 @@ include $(BUILD_SYSTEM)/help.mk
 # and host information.
 include $(BUILD_SYSTEM)/config.mk
 
-# Default soong to on
-USE_SOONG ?= true
-
-ifndef KATI
-ifdef USE_NINJA
-$(warning USE_NINJA is ignored. Ninja is always used.)
-endif
-
-# Mark this is a ninja build.
-$(shell mkdir -p $(OUT_DIR) && touch $(OUT_DIR)/ninja_build)
-include build/core/ninja.mk
-else # KATI
-
-include $(SOONG_MAKEVARS_MK)
-
-# Write the build number to a file so it can be read back in
-# without changing the command line every time.  Avoids rebuilds
-# when using ninja.
-$(shell mkdir -p $(OUT_DIR) && \
-    echo -n $(BUILD_NUMBER) > $(OUT_DIR)/build_number.txt && \
-    echo -n $(BUILD_DATETIME) > $(OUT_DIR)/build_date.txt)
-BUILD_NUMBER_FROM_FILE := $$(cat $(OUT_DIR)/build_number.txt)
-BUILD_DATETIME_FROM_FILE := $$(cat $(OUT_DIR)/build_date.txt)
-ifeq ($(HOST_OS),darwin)
-DATE_FROM_FILE := date -r $(BUILD_DATETIME_FROM_FILE)
-else
-DATE_FROM_FILE := date -d @$(BUILD_DATETIME_FROM_FILE)
-endif
-
-# CTS-specific config.
--include cts/build/config.mk
-
 # This allows us to force a clean build - included after the config.mk
 # environment setup is done, but before we generate any dependencies.  This
 # file does the rm -rf inline so the deps which are all done below will
@@ -289,12 +257,6 @@ endif
 
 # Bring in standard build system definitions.
 include $(BUILD_SYSTEM)/definitions.mk
-
-ifneq ($(USE_SOONG),true)
-$(eval $(call copy-toolchain-library,libgcc))
-$(eval $(call copy-toolchain-library,libatomic))
-$(eval $(call copy-toolchain-library,libgcov))
-endif
 
 # Bring in dex_preopt.mk
 include $(BUILD_SYSTEM)/dex_preopt.mk
@@ -554,10 +516,6 @@ ifneq ($(dont_bother),true)
 # --mindepth=2 makes the prunes not work.
 subdir_makefiles := \
 	$(shell build/tools/findleaves.py $(FIND_LEAVES_EXCLUDES) $(subdirs) Android.mk)
-
-ifeq ($(USE_SOONG),true)
-subdir_makefiles := $(SOONG_ANDROID_MK) $(call filter-soong-makefiles,$(subdir_makefiles))
-endif
 
 $(foreach mk, $(subdir_makefiles),$(info including $(mk) ...)$(eval include $(mk)))
 
@@ -898,9 +856,6 @@ files: $(modules_to_install) \
 
 .PHONY: checkbuild
 checkbuild: $(modules_to_check) droid_targets
-ifeq ($(USE_SOONG),true)
-checkbuild: checkbuild-soong
-endif
 ifeq (true,$(ANDROID_BUILD_EVERYTHING_BY_DEFAULT))
 droid: checkbuild
 endif
@@ -1141,4 +1096,3 @@ nothing:
 tidy_only:
 	@echo Successfully make tidy_only.
 
-endif # KATI
