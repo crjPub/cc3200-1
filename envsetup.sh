@@ -75,47 +75,39 @@ function findmakefile()
 function mmm()
 {
     local T=$(gettop)
-    if [ "$T" ]; then
-        local MAKEFILE=
-        local ARGS=
-        local DIR TO_CHOP
-        local GET_INSTALL_PATH=
-        local DASH_ARGS=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^-.*$/')
-        local DIRS=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^[^-].*$/')
-        for DIR in $DIRS ; do
-            DIR=`echo $DIR | sed -e 's/:.*//' -e 's:/$::'`
-            if [ -f $DIR/Android.mk ]; then
-                local TO_CHOP=`(\cd -P -- $T && pwd -P) | wc -c | tr -d ' '`
-                local TO_CHOP=`expr $TO_CHOP + 1`
-                local START=`PWD= /bin/pwd`
-                local MFILE=`echo $START | cut -c${TO_CHOP}-`
-                if [ "$MFILE" = "" ] ; then
-                    MFILE=$DIR/Makefile
-                else
-                    MFILE=$MFILE/$DIR/Makefile
-                fi
-                MAKEFILE="$MAKEFILE $MFILE"
-            else
-                case $DIR in
-                    showcommands | *=*) ARGS="$ARGS $DIR";;
-                    GET-INSTALL-PATH) GET_INSTALL_PATH=$DIR;;
-                    *)  if [ -d $DIR ]; then
-                            echo "No Makefile in $DIR.";
-                        else
-                            echo "Couldn't locate the directory $DIR";
-                        fi
-                    return 1;;
-                esac
-            fi
-        done
-        if [ -n "$GET_INSTALL_PATH" ]; then
-            ARGS=$GET_INSTALL_PATH
-        fi
-        ONE_SHOT_MAKEFILE="$MAKEFILE" make -C $T -f build/core/main.mk $DASH_ARGS $ARGS
-    else
+
+    if [ ! "$T" ]; then
         echo "Couldn't locate the top of the tree. Try setting TOP."
-    return 1
-fi
+        return 1
+    fi
+
+    local DIR=$1
+    local ARGS=$2
+    local START=`PWD= /bin/pwd`
+    local MAKEFILE=Makefile
+
+    if [ "$DIR" ]; then
+        DIR=`echo $DIR | sed -e 's/:.*//' -e 's:/$::'`
+        MAKEFILE=$DIR/Makefile
+    fi
+
+    if [ ! -f $MAKEFILE ]; then
+        if [ -d $DIR ]; then
+            echo "No Makefile in $DIR."
+        else
+            echo "Couldn't locate the directory $DIR"
+        fi
+        return 1
+    fi
+
+
+    if [ "$DIR" ]; then
+        cd $DIR
+    fi
+
+    make $ARGS
+
+    cd $START
 }
 
 
