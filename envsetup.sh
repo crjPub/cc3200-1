@@ -76,6 +76,17 @@ function mmm()
     local DIR=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^[^-].*$/')
     local ARGS=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^-.*$/' | cut -c2-)
 
+    if [ $# -eq 2 ]; then
+        if [ "x$ARGS" != "$ARGS" ]; then
+            echo "No option (target) assigned to build!"
+            mmm_usage
+            return 1
+        else
+            echo "Build: $DIR"
+            echo "Target: $ARGS"
+        fi
+    fi
+
     if [ "$DIR" ]; then
         DIR=`echo $DIR | sed -e 's/:.*//' -e 's:/$::'`
         MAKEFILE=$DIR/Makefile
