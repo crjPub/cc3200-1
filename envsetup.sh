@@ -164,4 +164,52 @@ function mm_usage()
     echo "  mm"
 }
 
+function m()
+{
+    local T=$(gettop)
+
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree. Try setting TOP."
+        return 1
+    fi
+
+    if [ $# -gt 3 ]; then
+        echo "Too many parameters!"
+        mm_usage
+        return 1
+    fi
+
+    local START=`PWD= /bin/pwd`
+    local MAKEFILE=Makefile
+
+    local MOD=$1
+    local OPT=$2
+
+    m_usage
+}
+
+function m_usage()
+{
+    echo "Usage:"
+    echo "  m [command] [config] [target]"
+	echo "  - command:"
+	echo "    - m / make [default]"
+	echo "    - b / build"
+	echo "    - r / rebuild"
+	echo "    - c / clean"
+	echo "  - config:"
+	echo "    - d / debug [default]"
+	echo "    - r / release"
+	echo "  - target:"
+	echo "    - all [default]"
+	echo "    - a / all"
+	echo "    - s / std"
+	echo "    - a / app"
+	echo "    - o / ota"
+	echo "Example:"
+	echo "  m m d a"
+	echo "  m c d"
+	echo "  m r"
+	echo "  m"
+}
 
