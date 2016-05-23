@@ -77,9 +77,9 @@ function mmm()
     # Use a more simiple way with less flexibility to do that
     # Start
     #local DIR=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^[^-].*$/')
-    #local ARGS=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^-.*$/' | cut -c2-)
+    #local OPT=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^-.*$/' | cut -c2-)
     local DIR=$1
-    local ARGS=$2
+    local OPT=$2
     # End
 
     if [ "x$DIR" = "x." ]; then
@@ -106,7 +106,7 @@ function mmm()
         cd $DIR
     fi
 
-    make $ARGS
+    make $OPT
 
     if [ "$DIR" ]; then
         cd $START
@@ -118,12 +118,50 @@ function mmm_usage()
 {
     echo "Usage:"
     echo "  mmm [path] [option]"
-    echo "  - path   - relative path to Makefile to be built with"
-    echo "  - option - target to make, eg clean"
+    echo "  - path   - relative path to Makefile (for an App) to be built with"
+    echo "  - option - target to make, eg clean, debug, release, etc"
     echo "Example:"
     echo "  mmm Apps/hello clean (* at top folder)"
     echo "  mmm Apps/hello       (* at top folder)"
     echo "  mmm . clean          (* at Apps/hello)"
     echo "  mmm                  (* at Apps/hello)"
 }
+
+function mm()
+{
+    local T=$(gettop)
+
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree. Try setting TOP."
+        return 1
+    fi
+
+    if [ $# -gt 2 ]; then
+        echo "Too many parameters!"
+        mm_usage
+        return 1
+    fi
+
+    local START=`PWD= /bin/pwd`
+    local MAKEFILE=Makefile
+
+    local MOD=$1
+    local OPT=$2
+
+    mm_usage
+}
+
+function mm_usage()
+{
+    echo "Usage:"
+    echo "  mm [module] [option]"
+    echo "  - module - A collection of Apps, SDK, OS, libs, etc"
+    echo "  - option - build command or option, eg clean, debug, release, etc"
+    echo "Example:"
+    echo "  mm apps clean"
+    echo "  mm sdk release"
+    echo "  mm libs"
+    echo "  mm"
+}
+
 
