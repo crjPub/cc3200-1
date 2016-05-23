@@ -73,18 +73,17 @@ function mmm()
     local START=`PWD= /bin/pwd`
     local MAKEFILE=Makefile
 
-    local DIR=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^[^-].*$/')
-    local ARGS=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^-.*$/' | cut -c2-)
+    # The following awk shell script has porting issue between zsh & bash
+    # Use a more simiple way with less flexibility to do that
+    # Start
+    #local DIR=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^[^-].*$/')
+    #local ARGS=$(echo "$@" | awk -v RS=" " -v ORS=" " '/^-.*$/' | cut -c2-)
+    local DIR=$1
+    local ARGS=$2
+    # End
 
-    if [ $# -eq 2 ]; then
-        if [ "x$ARGS" != "$ARGS" ]; then
-            echo "No option (target) assigned to build!"
-            mmm_usage
-            return 1
-        else
-            echo "Build: $DIR"
-            echo "Target: $ARGS"
-        fi
+    if [ "x$DIR" = "x." ]; then
+        DIR=
     fi
 
     if [ "$DIR" ]; then
