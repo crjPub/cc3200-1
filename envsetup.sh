@@ -117,9 +117,13 @@ function mmm()
 function mmm_usage()
 {
     echo "Usage:"
-    echo "  mmm [path] [-option]"
-    echo "  mmm [-option] [path]"
+    echo "  mmm [path] [option]"
     echo "  - path   - relative path to Makefile to be built with"
     echo "  - option - target to make, eg clean"
+    echo "Example:"
+    echo "  mmm Apps/hello clean (* at top folder)"
+    echo "  mmm Apps/hello       (* at top folder)"
+    echo "  mmm . clean          (* at Apps/hello)"
+    echo "  mmm                  (* at Apps/hello)"
 }
 
