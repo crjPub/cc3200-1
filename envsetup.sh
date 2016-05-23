@@ -57,6 +57,11 @@ function gettop
 
 function mmm()
 {
+    if [ "$1" = "h" -o "$1" = "-h" -o "$1" = "help" ]; then
+        mmm_usage
+        return 0
+    fi
+
     local T=$(gettop)
 
     if [ ! "$T" ]; then
@@ -129,6 +134,11 @@ function mmm_usage()
 
 function mm()
 {
+    if [ "$1" = "h" -o "$1" = "-h" -o "$1" = "help" ]; then
+        mm_usage
+        return 0
+    fi
+
     local T=$(gettop)
 
     if [ ! "$T" ]; then
@@ -166,6 +176,11 @@ function mm_usage()
 
 function m()
 {
+    if [ "$1" = "h" -o "$1" = "-h" -o "$1" = "help" ]; then
+        m_usage
+        return 0
+    fi
+
     local T=$(gettop)
 
     if [ ! "$T" ]; then
